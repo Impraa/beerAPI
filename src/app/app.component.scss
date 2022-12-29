@@ -1,11 +1,20 @@
 nav {
   display: flex;
-  background-color: aqua;
+  justify-content: center;
+  background-color: white;
 }
 .nav-title {
   font-weight: 700;
+  font-size: 3.5em;
+  padding: 0.5em;
   a {
     text-decoration: none;
     color: black;
+  }
+}
+
+@media (max-width: 320px) {
+  .nav-title {
+    font-size: 2em;
   }
 }

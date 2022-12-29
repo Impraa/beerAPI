@@ -1,0 +1,192 @@
+<section class="hero">
+  <div id="container">
+    <div id="top">
+      <div class="beer-foam">
+        <div class="foam-1"></div>
+        <div class="foam-2"></div>
+        <div class="foam-3"></div>
+        <div class="foam-4"></div>
+        <div class="foam-5"></div>
+        <div class="foam-6"></div>
+        <div class="foam-7"></div>
+        <div class="foam-8"></div>
+        <div class="foam-9"></div>
+        <div class="foam-10"></div>
+        <div class="foam-11"></div>
+        <div class="foam-12"></div>
+        <div class="foam-13"></div>
+        <div class="foam-14"></div>
+        <div class="foam-15"></div>
+        <div class="foam-16"></div>
+        <div class="foam-17"></div>
+        <div class="foam-18"></div>
+        <div class="foam-19"></div>
+        <div class="foam-20"></div>
+        <div class="foam-21"></div>
+        <div class="foam-22"></div>
+        <div class="foam-23"></div>
+        <div class="foam-24"></div>
+        <div class="foam-25"></div>
+        <div class="foam-26"></div>
+        <div class="foam-27"></div>
+        <div class="foam-28"></div>
+        <div class="foam-29"></div>
+        <div class="foam-30"></div>
+        <div class="foam-31"></div>
+        <div class="foam-32"></div>
+        <div class="foam-33"></div>
+        <div class="foam-34"></div>
+        <div class="foam-35"></div>
+        <div class="foam-36"></div>
+        <div class="foam-37"></div>
+        <div class="foam-38"></div>
+        <div class="foam-39"></div>
+        <div class="foam-40"></div>
+        <div class="foam-41"></div>
+        <div class="foam-42"></div>
+        <div class="foam-43"></div>
+        <div class="foam-44"></div>
+        <div class="foam-45"></div>
+        <div class="foam-46"></div>
+        <div class="foam-47"></div>
+        <div class="foam-48"></div>
+        <div class="foam-49"></div>
+        <div class="foam-50"></div>
+        <div class="foam-51"></div>
+        <div class="foam-52"></div>
+        <div class="foam-53"></div>
+        <div class="foam-54"></div>
+        <div class="foam-55"></div>
+        <div class="foam-56"></div>
+        <div class="foam-57"></div>
+        <div class="foam-58"></div>
+      </div>
+      <div id="liquid">
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+        <div class="bubble bubble5"></div>
+      </div>
+    </div>
+    <h2>
+      Welcome<span class="title-description">
+        here you can find world's finest craft beers!
+      </span>
+    </h2>
+    <p class="description-container">
+      Here you can find world's finest craft beers!
+    </p>
+  </div>
+  <p class="description">Here you can find world's finest craft beers!</p>
+</section>
+
+<section *ngIf="isLoaded$ | async; else loading" class="content">
+  <section class="controls">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label class="search-bar-text">Search Beers</mat-label>
+      <input matInput (keyup)="filterName($event)" />
+    </mat-form-field>
+    <div class="slider">
+      <mat-label class="percentage-text">Percentage of ABV:</mat-label>
+      <mat-slider
+        min="{{ minAbv }}"
+        max="{{ maxAbv }}"
+        (change)="filterAbv($event)"
+        step="0.1"
+      >
+        <input matSliderThumb />
+      </mat-slider>
+    </div>
+    <mat-form-field appearance="outline" class="valueSelector">
+      <mat-label class="sort-by-value-text">Sort by Name/ABV</mat-label>
+      <mat-select (selectionChange)="sort($event)" id="value">
+        <mat-option value="abv"> ABV </mat-option>
+        <mat-option value="name"> Name </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="typeSelector">
+      <mat-label class="sort-by-type-text">Sort by ASC/DESC</mat-label>
+      <mat-select (selectionChange)="sort($event)" id="type">
+        <mat-option value="asc"> ASC </mat-option>
+        <mat-option value="desc"> DESC </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox (change)="changeChecked()" color="primary" class="checkbox">
+      <mat-label class="checkbox-text">Show only favourites</mat-label>
+    </mat-checkbox>
+  </section>
+  <div *ngIf="isChecked; else all">
+    <section class="all-beer">
+      <div class="beer" *ngFor="let beer of favouriteBeers$ | async">
+        <img [src]="beer.image_url" alt="" />
+        <div class="beer-description">
+          <h2 class="name">
+            {{ beer.name }}
+          </h2>
+          <p class="abv">ABV :{{ beer.abv }}</p>
+          <a
+            mat-raised-button
+            color="primary"
+            routerLink="details/{{ beer.id }}"
+            class="learn-more"
+            >Learn more</a
+          >
+          <button
+            mat-raised-button
+            color="primary"
+            class="favourite-button"
+            (click)="favourites(beer.id)"
+          >
+            Favourite
+          </button>
+          <button
+            class="unfavourite-button"
+            mat-raised-button
+            color="warn"
+            (click)="removeFavourites(beer.id)"
+          >
+            Unfavourite
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+<ng-template #all>
+  <section class="all-beer">
+    <div class="beer" *ngFor="let beer of beers$ | async">
+      <img [src]="beer.image_url" alt="" />
+      <div class="beer-description">
+        <h2 class="name">
+          {{ beer.name }}
+        </h2>
+        <p class="abv">ABV : {{ beer.abv }}</p>
+        <a
+          mat-raised-button
+          color="primary"
+          routerLink="details/{{ beer.id }}"
+          class="learn-more"
+          >Learn more</a
+        >
+        <button
+          mat-raised-button
+          color="primary"
+          class="favourite-button"
+          (click)="favourites(beer.id)"
+        >
+          Favourites
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="unfavourite-button"
+          (click)="removeFavourites(beer.id)"
+        >
+          Unfavourite
+        </button>
+      </div>
+    </div>
+  </section></ng-template
+>
+<ng-template #loading> Loading screen </ng-template>
